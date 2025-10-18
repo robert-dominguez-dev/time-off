@@ -1,0 +1,8 @@
+{
+  "name": "Time Off",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "24f455f6"
+}

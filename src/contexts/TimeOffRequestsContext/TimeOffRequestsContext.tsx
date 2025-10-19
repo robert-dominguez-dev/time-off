@@ -5,7 +5,7 @@ import { TimeOffRequest, TimeOffRequestStatus } from '../../types/models';
 import { AppStorageKey, storageHandler } from '../constants';
 import { TimeOffRequestsAction, TimeOffRequestsActionCode } from './types';
 
-const initialState: TimeOffRequest[] = storageHandler.getItem<TimeOffRequest[]>(AppStorageKey.timeOffRequests) || [];
+const initialRequests: TimeOffRequest[] = storageHandler.getItem<TimeOffRequest[]>(AppStorageKey.timeOffRequests) || [];
 
 const saveRequestsToStorage =
     (requests: TimeOffRequest[]) => storageHandler.setItem(AppStorageKey.timeOffRequests, requests);
@@ -55,12 +55,12 @@ type TimeOffRequestsContextType = {
 };
 
 const TimeOffRequestsContext = createContext<TimeOffRequestsContextType>({
-  state: initialState,
+  state: initialRequests,
   dispatch: () => undefined,
 });
 
 export const TimeOffRequestsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [ state, dispatch ] = useReducer(reducer, initialState);
+  const [ state, dispatch ] = useReducer(reducer, initialRequests);
 
   return (
     <TimeOffRequestsContext.Provider

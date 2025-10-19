@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState } from 'react';
 
 import { User } from '../types/models';
-import { mockedUsers } from './constants';
+import { AppStorageKey, mockedUsers, storageHandler } from './constants';
+
+const initialUser = storageHandler.getItem<User | undefined>(AppStorageKey.user);
 
 type UserContextProps = {
     user: User | undefined;
@@ -16,17 +18,21 @@ const UserContext = createContext<UserContextProps>({
 });
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [ user, setUser ] = useState<User>();
+  const [ user, setUser ] = useState<User | undefined>(initialUser);
 
   const login = (username: string) => {
     const foundUser = mockedUsers.find(u => u.username === username);
-    console.log(foundUser);
+
     if (foundUser) {
       setUser(foundUser);
+      storageHandler.setItem(AppStorageKey.user, foundUser);
     }
   };
 
-  const logout = () => setUser(undefined);
+  const logout = () => {
+    storageHandler.removeItem(AppStorageKey.user);
+    setUser(undefined);
+  };
 
   return (
     <UserContext.Provider

@@ -1,25 +1,33 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { ChildrenProp } from '../../types/common';
+import { IonButton, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { ChildrenProp, MaybeElement } from '../../types/common';
 import { AppColumn, AppColumnProps } from './AppView/AppColumn';
+import { useUser } from '../../contexts/UserContext';
+import { logOutOutline } from 'ionicons/icons';
 
 type AppPageLayoutProps = ChildrenProp & Pick<AppColumnProps, 'gap'> & { title: string }
 
-export const AppPageLayout = ({ children, title, gap }: AppPageLayoutProps) => (
-  <IonPage>
-    <IonHeader>
-      <IonToolbar>
-        <IonTitle>{title}</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent fullscreen>
-      <IonHeader collapse="condense">
+export const AppPageLayout = ({ children, title, gap }: AppPageLayoutProps) => {
+  const { user, logout } = useUser();
+
+  const logoutButton: MaybeElement = user ? (
+    <IonButton slot={'end'} fill={'clear'} size={'small'} onClick={logout}>
+      <IonIcon size={'large'} icon={logOutOutline} />
+    </IonButton>
+  ) : null;
+
+  return (
+    <IonPage>
+      <IonHeader>
         <IonToolbar>
-          <IonTitle size="large">{title}</IonTitle>
+          <IonTitle size={'large'}>{title}</IonTitle>
+          {logoutButton}
         </IonToolbar>
       </IonHeader>
-      <AppColumn pt={'l'} gap={gap}>
-        {children}
-      </AppColumn>
-    </IonContent>
-  </IonPage>
-);
+      <IonContent fullscreen>
+        <AppColumn pt={'l'} gap={gap}>
+          {children}
+        </AppColumn>
+      </IonContent>
+    </IonPage>
+  );
+};

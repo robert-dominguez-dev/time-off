@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import React from 'react';
 import { SupervisorRequestsPage } from '../../pages/supervisor/requests/SupervisorRequestsPage';
 import { SupervisorRequestsDetailPage } from '../../pages/supervisor/requests/:id/SupervisorRequestsDetailPage';
@@ -6,15 +6,9 @@ import { SupervisorRequestsDetailPage } from '../../pages/supervisor/requests/:i
 const baseRoute = '/supervisor/requests';
 
 export const SupervisorRoutes = () => (
-  <>
-    <Route exact path={baseRoute}>
-      <SupervisorRequestsPage />
-    </Route>
-    <Route exact path={'/supervisor/requests/:id'}>
-      <SupervisorRequestsDetailPage />
-    </Route>
-    <Route exact path={'*'}>
-      <Redirect to={baseRoute} />
-    </Route>
-  </>
+  <Switch>
+    <Route exact path={'/supervisor/requests/:id'} component={SupervisorRequestsDetailPage} />
+    <Route exact path={baseRoute} component={SupervisorRequestsPage} />
+    <Route render={() => <Redirect to={baseRoute} />} />
+  </Switch>
 );

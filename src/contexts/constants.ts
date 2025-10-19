@@ -2,6 +2,7 @@ import { User, UserRole } from '../types/models';
 
 export enum AppStorageKey {
     timeOffRequests = 'timeOffRequests',
+    user = 'user',
 }
 
 export const storageHandler = {

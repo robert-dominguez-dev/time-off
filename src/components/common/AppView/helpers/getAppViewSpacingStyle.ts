@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { AppSizeUnion } from '../../../../constants/common';
+import { AppSizeUnion } from '../../../../types/ui';
 import { getSpacingStyleByPriority } from './getSpacingStyleByPriority';
 
 type SpacingStyleKey = 'm' | 'mx' | 'my' | 'mt' | 'mb' | 'ml' | 'mr' | 'p' | 'px' | 'py' | 'pt' | 'pb' | 'pl' | 'pr'

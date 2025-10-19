@@ -50,23 +50,29 @@ const reducer = (prevRequests: TimeOffRequest[], action: TimeOffRequestsAction):
 };
 
 type TimeOffRequestsContextType = {
-    state: TimeOffRequest[];
+    allRequests: TimeOffRequest[];
     dispatch: Dispatch<TimeOffRequestsAction>;
+    getRequestsByEmployeeUsername: (username: string) => TimeOffRequest[];
 };
 
 const TimeOffRequestsContext = createContext<TimeOffRequestsContextType>({
-  state: initialRequests,
+  allRequests: initialRequests,
   dispatch: () => undefined,
+  getRequestsByEmployeeUsername: () => [],
 });
 
 export const TimeOffRequestsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [ state, dispatch ] = useReducer(reducer, initialRequests);
+  const [ allRequests, dispatch ] = useReducer(reducer, initialRequests);
+
+  const getRequestsByEmployeeUsername =
+        (username: string) => allRequests.filter(request => request.employeeUsername === username);
 
   return (
     <TimeOffRequestsContext.Provider
       value={{
-        state,
+        allRequests,
         dispatch,
+        getRequestsByEmployeeUsername,
       }}
     >
       {children}

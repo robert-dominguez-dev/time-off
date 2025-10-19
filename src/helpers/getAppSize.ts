@@ -1,6 +1,7 @@
-import { AppSize, AppSizeUnion } from '../constants/common';
+import { AppSize } from '../constants/common';
 import { checkIsNullish } from './checkIsNullish';
 import { checkIsValidNumber } from './checkIsValidNumber';
+import { AppSizeUnion } from '../types/ui';
 
 export const getAppSize = (
   sizeUnion: AppSizeUnion | undefined,

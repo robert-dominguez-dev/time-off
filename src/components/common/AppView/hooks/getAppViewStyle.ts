@@ -1,6 +1,6 @@
 import { getBorderProps, GetBorderPropsParams } from '../helpers/getBorderProps';
 import { CSSProperties } from 'react';
-import { AppSizeUnion } from '../../../../constants/common';
+import { AppSizeUnion } from '../../../../types/ui';
 import { getAppViewSpacingStyle } from '../helpers/getAppViewSpacingStyle';
 import { getAppSize } from '../../../../helpers/getAppSize';
 

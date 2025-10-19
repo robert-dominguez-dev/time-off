@@ -1,17 +1,19 @@
-import { IonButton, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { ChildrenProp, MaybeElement } from '../../types/common';
 import { AppColumn, AppColumnProps } from './AppView/AppColumn';
 import { useUser } from '../../contexts/UserContext';
-import { logOutOutline } from 'ionicons/icons';
+import { AppIcon } from './AppIcon';
 
-type AppPageLayoutProps = ChildrenProp & Pick<AppColumnProps, 'gap'> & { title: string }
+type AppPageLayoutProps = ChildrenProp & Pick<AppColumnProps, 'gap'> & {
+    title: string,
+}
 
 export const AppPageLayout = ({ children, title, gap }: AppPageLayoutProps) => {
   const { user, logout } = useUser();
 
   const logoutButton: MaybeElement = user ? (
     <IonButton slot={'end'} fill={'clear'} size={'small'} onClick={logout}>
-      <IonIcon size={'large'} icon={logOutOutline} />
+      <AppIcon slot={'end'} size={'large'} icon={'logOutOutline'} />
     </IonButton>
   ) : null;
 

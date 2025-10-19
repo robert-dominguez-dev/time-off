@@ -9,5 +9,3 @@ export enum AppSize {
     xxl = 64,
     '3xl' = 80,
 }
-
-export type AppSizeUnion = keyof typeof AppSize | number;

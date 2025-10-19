@@ -1,5 +1,6 @@
-import { AppSize, AppSizeUnion } from '../constants/common';
+import { AppSizeUnion } from '../types/ui';
 import { getAppSize } from './getAppSize';
+import { AppSize } from '../constants/common';
 
 type TestCase = {
     input: AppSizeUnion | undefined;

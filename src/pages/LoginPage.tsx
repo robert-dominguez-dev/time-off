@@ -76,7 +76,7 @@ export const LoginPage = () => {
       </AppForm>
       <IonItem lines={'none'}>
         <AppColumn grow gap={'s'}>
-          <IonText>Fill credentials as a test user:</IonText>
+          <IonText>Click on some link below to fill test credentials:</IonText>
           <FillAsUserLink user={aliceEmployee} updateUserToForm={updateUserToForm} />
           <FillAsUserLink user={karelEmployee} updateUserToForm={updateUserToForm} />
           <FillAsUserLink user={bobSupervisor} updateUserToForm={updateUserToForm} />

@@ -1,6 +1,5 @@
-import { AppSizeUnion } from '../../../../constants/common';
+import { AppSizeUnion, BorderProps } from '../../../../types/ui';
 import { getAppSize } from '../../../../helpers/getAppSize';
-import { BorderProps } from '../../../../types/ui';
 
 const DEFAULT_BORDER_WIDTH = 2;
 

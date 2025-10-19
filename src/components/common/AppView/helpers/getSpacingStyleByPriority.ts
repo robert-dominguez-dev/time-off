@@ -1,5 +1,6 @@
-import { AppSize, AppSizeUnion } from '../../../../constants/common';
+import { AppSize } from '../../../../constants/common';
 import { getAppSize } from '../../../../helpers/getAppSize';
+import { AppSizeUnion } from '../../../../types/ui';
 
 type SpacingStyleByPriorityKey = 'all' | 'x' | 'y' | 'top' | 'bottom' | 'left' | 'right'
 

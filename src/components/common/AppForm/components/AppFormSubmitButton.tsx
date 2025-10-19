@@ -1,8 +1,10 @@
 import { Control, FieldValues, useFormState } from 'react-hook-form';
-import { AppButton, AppButtonProps } from '../../AppButton';
 
-type AppFormSubmitButtonProps<TFieldValues extends FieldValues> = Pick<AppButtonProps, 'label'> & {
-    control: Control<TFieldValues>,
+import { IonButton } from '@ionic/react';
+
+type AppFormSubmitButtonProps<TFieldValues extends FieldValues> = {
+    control: Control<TFieldValues>;
+    label: string;
 }
 
 export const AppFormSubmitButton = <TFieldValues extends FieldValues>({
@@ -12,10 +14,12 @@ export const AppFormSubmitButton = <TFieldValues extends FieldValues>({
   const { isValid } = useFormState<TFieldValues>({ control });
 
   return (
-    <AppButton
+    <IonButton
       type={'submit'}
-      label={label}
+      expand={'block'}
       disabled={!isValid}
-    />
+    >
+      {label}
+    </IonButton>
   );
 };

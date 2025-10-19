@@ -21,7 +21,6 @@ export const AppFormInput = <TFieldValues extends FieldValues, TFieldName extend
   placeholder,
 }: AppFormInputProps<TFieldValues, TFieldName>) => {
   const { errors } = useFormState({ control });
-
   const errorMessage = errors[name]?.message?.toString();
 
   return (

@@ -9,3 +9,5 @@ export enum AppSize {
     xxl = 64,
     '3xl' = 80,
 }
+
+export const COMPLETE_DATE_FORMAT = 'yyyy-MM-dd';

@@ -11,7 +11,7 @@ export const employeeActionBarItems: ActionBarItem[] = [
     tab: 'requests',
     href: baseRouteMap.employee,
     icon: 'list',
-    label: 'Requests',
+    label: 'My requests',
   },
   {
     tab: 'add',

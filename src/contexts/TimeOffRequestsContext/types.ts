@@ -7,7 +7,10 @@ export enum TimeOffRequestsActionCode {
 }
 
 export type TimeOffRequestsAction =
-    | { type: TimeOffRequestsActionCode.addRequest; payload: Omit<TimeOffRequest, 'id' | 'status' | 'createdAt'> }
+    | {
+    type: TimeOffRequestsActionCode.addRequest;
+    payload: Omit<TimeOffRequest, 'id' | 'status' | 'createdAt' | 'supervisorNote'>
+}
     | {
     type: TimeOffRequestsActionCode.updateRequestStatus;
     payload: {

@@ -10,8 +10,8 @@ import { addDays, format } from 'date-fns';
 import { getTextRules } from '../../../../components/common/AppForm/components/helpers/getTextRules';
 import { AppDatePicker } from '../../../../components/common/AppForm/components/AppDatePicker';
 import { getRequiredRules } from '../../../../components/common/AppForm/components/helpers/getRequiredRules';
-import { IonPicker, IonPickerColumn, IonPickerColumnOption } from '@ionic/react';
 import { COMPLETE_DATE_FORMAT } from '../../../../constants/common';
+import { AppPicker, AppPickerItem } from '../../../../components/common/AppForm/components/AppPicker/AppPicker';
 
 const TODAY = new Date();
 const TIME_OFF_TYPES = Object.values(TimeOffType);
@@ -21,6 +21,11 @@ const timeOfTypeToTextMap: Record<TimeOffType, string> = {
   [TimeOffType.sick]: 'Sick',
   [TimeOffType.personal]: 'Personal',
 };
+
+const timeOfTypePickerItems = TIME_OFF_TYPES.map<AppPickerItem<TimeOffType>>((timeOffType) => ({
+  label: timeOfTypeToTextMap[timeOffType],
+  value: timeOffType,
+}));
 
 enum CreateRequestFormFieldName {
     type = 'type',
@@ -66,13 +71,6 @@ export const EmployeeCreateRequestPage = () => {
   return (
     <AppPageLayout title={'Create request'}>
       <AppForm control={control} submitButtonLabel={'Create request'} onSubmit={handleSubmit(onSubmit)}>
-        <AppFormInput
-          name={CreateRequestFormFieldName.note}
-          control={control}
-          label={'Note'}
-          placeholder={'Wraite a note'}
-          rules={getTextRules({ minLength: 10 })}
-        />
         <AppDatePicker
           name={CreateRequestFormFieldName.startDate}
           control={control}
@@ -85,20 +83,23 @@ export const EmployeeCreateRequestPage = () => {
           label={'End date'}
           rules={getRequiredRules()}
         />
-
-        <IonPicker>
-          <IonPickerColumn value="javascript">
-            {
-              TIME_OFF_TYPES.map((timeOffType) => (
-                <IonPickerColumnOption
-                  key={timeOffType}
-                  value={timeOffType}
-                >
-                  {timeOfTypeToTextMap[timeOffType]}
-                </IonPickerColumnOption>))
-            }
-          </IonPickerColumn>
-        </IonPicker>
+        <AppPicker
+          control={control}
+          name={CreateRequestFormFieldName.type}
+          label={'Request type'}
+          rules={getRequiredRules()}
+          items={timeOfTypePickerItems}
+        />
+        <AppFormInput
+          name={CreateRequestFormFieldName.note}
+          control={control}
+          label={'Note'}
+          placeholder={'Wraite a note'}
+          rules={getTextRules({
+            minLength: 10,
+            required: false,
+          })}
+        />
       </AppForm>
     </AppPageLayout>
   );

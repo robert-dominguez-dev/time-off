@@ -1,9 +1,9 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { LoginPage } from '../../pages/LoginPage';
 import React from 'react';
-import { baseRouteMap } from '../common/AppContent/constants';
+import { AppRoute } from '../common/AppContent/constants';
 
-const baseRoute = baseRouteMap.login;
+const baseRoute = AppRoute.login;
 
 export const LoginRoutes = () => (
   <Switch>

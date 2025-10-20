@@ -1,4 +1,4 @@
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
 import { ChildrenProp, MaybeElement } from '../../types/common';
 import { AppColumn, AppColumnProps } from './AppView/AppColumn';
 import { useUser } from '../../contexts/UserContext';
@@ -6,12 +6,21 @@ import { AppIcon } from './AppIcon';
 
 type AppPageLayoutProps = ChildrenProp & Pick<AppColumnProps, 'gap'> & {
     title: string,
+    withBackButton?: boolean,
 }
 
-export const AppPageLayout = ({ children, title, gap }: AppPageLayoutProps) => {
+export const AppPageLayout = ({ children, title, gap, withBackButton }: AppPageLayoutProps) => {
+  const router = useIonRouter();
+
   const { user, logout } = useUser();
 
-  const logoutButton: MaybeElement = user ? (
+  const backHeaderButton: MaybeElement = withBackButton ? (
+    <IonButton slot={'start'} fill={'clear'} size={'small'} onClick={() => router.goBack()}>
+      <AppIcon slot={'start'} size={'large'} icon={'arrowBack'} />
+    </IonButton>
+  ) : null;
+
+  const logoutHeaderButton: MaybeElement = user ? (
     <IonButton slot={'end'} fill={'clear'} size={'small'} onClick={logout}>
       <AppIcon slot={'end'} size={'large'} icon={'logOutOutline'} />
     </IonButton>
@@ -21,8 +30,9 @@ export const AppPageLayout = ({ children, title, gap }: AppPageLayoutProps) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          {backHeaderButton}
           <IonTitle size={'large'}>{title}</IonTitle>
-          {logoutButton}
+          {logoutHeaderButton}
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

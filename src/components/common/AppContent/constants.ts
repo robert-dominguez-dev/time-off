@@ -1,22 +1,10 @@
-import { ActionBarItem } from '../AppActionBar';
+const SUPERVISOR_BASE_ROUTE = '/supervisor/requests';
+const EMPLOYEE_BASE_ROUTE = '/employee/requests';
 
-export const baseRouteMap = {
-  login: '/login',
-  supervisor: '/supervisor/requests',
-  employee: '/employee/requests',
-} as const;
-
-export const employeeActionBarItems: ActionBarItem[] = [
-  {
-    tab: 'requests',
-    href: baseRouteMap.employee,
-    icon: 'list',
-    label: 'My requests',
-  },
-  {
-    tab: 'add',
-    href: `${baseRouteMap.employee}/create`,
-    icon: 'add',
-    label: 'Create',
-  },
-];
+export enum AppRoute {
+    login = '/login',
+    supervisorRequests = SUPERVISOR_BASE_ROUTE,
+    supervisorRequestDetail = `${SUPERVISOR_BASE_ROUTE}/:id`,
+    employeeRequests = EMPLOYEE_BASE_ROUTE,
+    employeeRequestCreate = `${EMPLOYEE_BASE_ROUTE}/create`,
+}

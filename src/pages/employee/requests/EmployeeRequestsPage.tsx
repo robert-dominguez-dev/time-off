@@ -3,6 +3,9 @@ import { TimeOffRequestsItemList } from '../../../components/common/TimeOffReque
 import { useTimeOffRequests } from '../../../contexts/TimeOffRequestsContext/TimeOffRequestsContext';
 import { useUser } from '../../../contexts/UserContext';
 import { TimeOffRequest } from '../../../types/models';
+import { IonFab, IonFabButton } from '@ionic/react';
+import { AppIcon } from '../../../components/common/AppIcon';
+import { AppRoute } from '../../../components/common/AppContent/constants';
 
 export const EmployeeRequestsPage = () => {
   const { user } = useUser();
@@ -13,6 +16,11 @@ export const EmployeeRequestsPage = () => {
   return (
     <AppPageLayout title={'Request list'}>
       <TimeOffRequestsItemList items={requests} />
+      <IonFab slot={'fixed'} horizontal={'center'} vertical={'bottom'}>
+        <IonFabButton href={AppRoute.employeeRequestCreate}>
+          <AppIcon icon={'add'} />
+        </IonFabButton>
+      </IonFab>
     </AppPageLayout>
   );
 };

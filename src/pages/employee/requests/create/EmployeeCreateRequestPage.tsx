@@ -69,7 +69,7 @@ export const EmployeeCreateRequestPage = () => {
   });
 
   return (
-    <AppPageLayout title={'Create request'}>
+    <AppPageLayout withBackButton title={'Create request'}>
       <AppForm control={control} submitButtonLabel={'Create request'} onSubmit={handleSubmit(onSubmit)}>
         <AppDatePicker
           name={CreateRequestFormFieldName.startDate}
@@ -94,7 +94,7 @@ export const EmployeeCreateRequestPage = () => {
           name={CreateRequestFormFieldName.note}
           control={control}
           label={'Note'}
-          placeholder={'Wraite a note'}
+          placeholder={'Write a note'}
           rules={getTextRules({
             minLength: 10,
             required: false,

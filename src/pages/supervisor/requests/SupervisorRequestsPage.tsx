@@ -6,7 +6,7 @@ export const SupervisorRequestsPage = () => {
   const { allRequests } = useTimeOffRequests();
 
   return (
-    <AppPageLayout title={'Request list'}>
+    <AppPageLayout title={'Employees requests'}>
       <TimeOffRequestsItemList items={allRequests} />
     </AppPageLayout>
   );

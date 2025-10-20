@@ -22,7 +22,7 @@ export const EmployeeRequestsPage = () => {
   );
 
   return (
-    <AppPageLayout title={'Request list'} footerElement={footerElement}>
+    <AppPageLayout title={'My requests'} footerElement={footerElement}>
       <TimeOffRequestsItemList items={requests} />
     </AppPageLayout>
   );

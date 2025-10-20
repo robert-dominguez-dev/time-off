@@ -14,7 +14,7 @@ import {
   timeOffStatusToTextMap,
   timeOffTypeToTextMap,
 } from '../../../../pages/employee/requests/create/constants';
-import { format } from 'date-fns';
+import { differenceInHours, format } from 'date-fns';
 import { DEFAULT_DATE_FORMAT } from '../../../../constants/common';
 import { AppColumn } from '../../AppView/AppColumn';
 import { AppRow } from '../../AppView/AppRow';
@@ -35,6 +35,9 @@ export const TimeOffRequestsItem = ({
   const createdAtFormatted = format(createdAt, DEFAULT_DATE_FORMAT);
   const startDateFormatted = format(startDate, DEFAULT_DATE_FORMAT);
   const endDateFormatted = format(endDate, DEFAULT_DATE_FORMAT);
+
+  const durationInHours = differenceInHours(endDate, startDate);
+  const durationInDays = (durationInHours / 24).toFixed(1);
 
   return (
     <IonCard>
@@ -69,6 +72,12 @@ export const TimeOffRequestsItem = ({
               <strong>End date:</strong>
             </IonLabel>
             {endDateFormatted}
+          </AppRow>
+          <AppRow grow justifyContent={'space-between'}>
+            <IonLabel>
+              <strong>Duration:</strong>
+            </IonLabel>
+            {durationInDays} days (i.e. {durationInHours} hours)
           </AppRow>
           {employeeNote && (
             <IonText>

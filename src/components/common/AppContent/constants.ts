@@ -7,4 +7,5 @@ export enum AppRoute {
     supervisorRequestDetail = `${SUPERVISOR_BASE_ROUTE}/:id`,
     employeeRequests = EMPLOYEE_BASE_ROUTE,
     employeeRequestCreate = `${EMPLOYEE_BASE_ROUTE}/create`,
+    employeeRequestDetail = `${EMPLOYEE_BASE_ROUTE}/:id`,
 }

@@ -5,7 +5,7 @@ import { AppFormInput } from '../components/common/AppForm/components/AppFormInp
 import { getTextRules } from '../components/common/AppForm/components/helpers/getTextRules';
 import { AppForm } from '../components/common/AppForm/AppForm';
 import { IonItem, IonText } from '@ionic/react';
-import { aliceEmployee, bobSupervisor, karelEmployee } from '../contexts/constants';
+import { alEmployee, ellaSupervisor, justinEmployee } from '../contexts/constants';
 import { AppColumn } from '../components/common/AppView/AppColumn';
 import { FillAsUserLink } from '../components/login/FillAsUserLink';
 
@@ -77,9 +77,9 @@ export const LoginPage = () => {
       <IonItem lines={'none'}>
         <AppColumn grow gap={'s'}>
           <IonText>Click on some link below to fill test credentials:</IonText>
-          <FillAsUserLink user={aliceEmployee} updateUserToForm={updateUserToForm} />
-          <FillAsUserLink user={karelEmployee} updateUserToForm={updateUserToForm} />
-          <FillAsUserLink user={bobSupervisor} updateUserToForm={updateUserToForm} />
+          <FillAsUserLink user={justinEmployee} updateUserToForm={updateUserToForm} />
+          <FillAsUserLink user={alEmployee} updateUserToForm={updateUserToForm} />
+          <FillAsUserLink user={ellaSupervisor} updateUserToForm={updateUserToForm} />
         </AppColumn>
       </IonItem>
     </AppPageLayout>

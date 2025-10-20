@@ -1,101 +1,39 @@
 import { TimeOffRequest } from '../../../../types/models';
-import {
-  IonBadge,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonLabel,
-  IonText,
-} from '@ionic/react';
-import {
-  timeOffStatusToTextColorMap,
-  timeOffStatusToTextMap,
-  timeOffTypeToTextMap,
-} from '../../../../pages/employee/requests/create/constants';
-import { differenceInHours, format } from 'date-fns';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
+import { timeOffTypeToTextMap } from '../../../../pages/employee/requests/create/constants';
+import { format } from 'date-fns';
 import { DEFAULT_DATE_FORMAT } from '../../../../constants/common';
-import { AppColumn } from '../../AppView/AppColumn';
-import { AppRow } from '../../AppView/AppRow';
+import { TimeOffRequestsItemContent } from './TimeOffRequestsItemContent';
 
-type TimeOffRequestsItemProps = TimeOffRequest
+export type TimeOffRequestsItemProps = TimeOffRequest & {
+    onClick: (id: string) => void;
+}
 
 export const TimeOffRequestsItem = ({
+  id,
   timeOffType,
-  status,
-  employeeUsername,
-  supervisorNote,
-  employeeNote,
-  startDate,
-  endDate,
+  employeeName,
   createdAt,
+  onClick,
+  ...contentProps
 }: TimeOffRequestsItemProps) => {
-
   const createdAtFormatted = format(createdAt, DEFAULT_DATE_FORMAT);
-  const startDateFormatted = format(startDate, DEFAULT_DATE_FORMAT);
-  const endDateFormatted = format(endDate, DEFAULT_DATE_FORMAT);
-
-  const durationInHours = differenceInHours(endDate, startDate);
-  const durationInDays = (durationInHours / 24).toFixed(1);
 
   return (
-    <IonCard>
+    <IonCard onClick={() => onClick(id)}>
       <IonCardHeader>
         <IonCardSubtitle>
           Created at: {createdAtFormatted}
         </IonCardSubtitle>
+        <IonCardSubtitle color={'dark'}>
+          Type: {timeOffTypeToTextMap[timeOffType]}
+        </IonCardSubtitle>
         <IonCardTitle>
-          {employeeUsername} | {timeOffTypeToTextMap[timeOffType]}
+          {employeeName}
         </IonCardTitle>
       </IonCardHeader>
       <IonCardContent>
-        <AppColumn gap={'s'} grow>
-          <AppRow grow justifyContent={'space-between'}>
-            <IonLabel>
-              <strong>Status:</strong>
-            </IonLabel>
-            <IonBadge
-              color={timeOffStatusToTextColorMap[status]}
-            >
-              {timeOffStatusToTextMap[status]}
-            </IonBadge>
-          </AppRow>
-          <AppRow grow justifyContent={'space-between'}>
-            <IonLabel>
-              <strong>Start date:</strong>
-            </IonLabel>
-            {startDateFormatted}
-          </AppRow>
-          <AppRow grow justifyContent={'space-between'}>
-            <IonLabel>
-              <strong>End date:</strong>
-            </IonLabel>
-            {endDateFormatted}
-          </AppRow>
-          <AppRow grow justifyContent={'space-between'}>
-            <IonLabel>
-              <strong>Duration:</strong>
-            </IonLabel>
-            {durationInDays} days (i.e. {durationInHours} hours)
-          </AppRow>
-          {employeeNote && (
-            <IonText>
-              <IonLabel color={'secondary'}>
-                <strong>Employee note: </strong>
-              </IonLabel>
-              {employeeNote}
-            </IonText>
-          )}
-          {supervisorNote && (
-            <IonText>
-              <IonLabel color={'tertiary'}>
-                <strong>Supervisor note: </strong>
-              </IonLabel>
-              {supervisorNote}
-            </IonText>
-          )}
-        </AppColumn>
+        <TimeOffRequestsItemContent {...contentProps} />
       </IonCardContent>
     </IonCard>
   );

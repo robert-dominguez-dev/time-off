@@ -4,6 +4,7 @@ import { Control, FieldValues } from 'react-hook-form';
 import { ChildrenProp } from '../../../types/common';
 import { AppFormSubmitButton } from './components/AppFormSubmitButton';
 import { AppColumn } from '../AppView/AppColumn';
+import { Color } from '@ionic/core';
 
 const ionListStyles = getAppViewStyle({
   flexDirection: 'column',
@@ -13,6 +14,7 @@ const ionListStyles = getAppViewStyle({
 type AppFormProps<TFieldValues extends FieldValues> = ChildrenProp & {
     control: Control<TFieldValues>
     submitButtonLabel: string,
+    submitButtonColor?: Color,
     onSubmit: () => void;
 }
 
@@ -20,6 +22,7 @@ export const AppForm = <TFieldValues extends FieldValues>({
   children,
   control,
   submitButtonLabel,
+  submitButtonColor,
   onSubmit,
 }: AppFormProps<TFieldValues>) =>
     (
@@ -28,7 +31,7 @@ export const AppForm = <TFieldValues extends FieldValues>({
           {children}
         </IonList>
         <AppColumn px={'m'} pt={'l'}>
-          <AppFormSubmitButton control={control} label={submitButtonLabel} />
+          <AppFormSubmitButton control={control} label={submitButtonLabel} color={submitButtonColor} />
         </AppColumn>
       </form>
     );

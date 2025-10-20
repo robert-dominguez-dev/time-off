@@ -31,26 +31,26 @@ export const storageHandler = {
   },
 };
 
-export const aliceEmployee: User = {
-  username: 'Alice',
-  name: 'Alice Employee',
+export const justinEmployee: User = {
+  username: 'JustInTime',
+  name: 'Justin Time',
   role: UserRole.employee,
 };
 
-export const karelEmployee: User = {
-  username: 'Karel',
-  name: 'Karel Employee',
+export const alEmployee: User = {
+  username: 'AlGorithm',
+  name: 'Al Gorithm',
   role: UserRole.employee,
 };
 
-export const bobSupervisor: User = {
-  username: 'Bob',
-  name: 'Bob Supervisor',
+export const ellaSupervisor: User = {
+  username: 'EllaVator',
+  name: 'Ella Vator',
   role: UserRole.supervisor,
 };
 
 export const mockedUsers: User[] = [
-  aliceEmployee,
-  karelEmployee,
-  bobSupervisor,
+  justinEmployee,
+  alEmployee,
+  ellaSupervisor,
 ];

@@ -13,14 +13,17 @@ export const EmployeeRequestsPage = () => {
 
   const requests: TimeOffRequest[] = user?.username ? getRequestsByEmployeeUsername(user.username) : [];
 
+  const footerElement = (
+    <IonFab slot={'fixed'} horizontal={'center'} vertical={'bottom'}>
+      <IonFabButton href={AppRoute.employeeRequestCreate}>
+        <AppIcon icon={'add'} />
+      </IonFabButton>
+    </IonFab>
+  );
+
   return (
-    <AppPageLayout title={'Request list'}>
+    <AppPageLayout title={'Request list'} footerElement={footerElement}>
       <TimeOffRequestsItemList items={requests} />
-      <IonFab slot={'fixed'} horizontal={'center'} vertical={'bottom'}>
-        <IonFabButton href={AppRoute.employeeRequestCreate}>
-          <AppIcon icon={'add'} />
-        </IonFabButton>
-      </IonFab>
     </AppPageLayout>
   );
 };

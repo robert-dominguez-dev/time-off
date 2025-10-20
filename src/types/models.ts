@@ -24,6 +24,7 @@ export enum TimeOffRequestStatus {
 export type TimeOffRequest = {
     id: string;
     employeeUsername: string;
+    employeeName: string;
     startDate: string;
     endDate: string;
     timeOffType: TimeOffType;

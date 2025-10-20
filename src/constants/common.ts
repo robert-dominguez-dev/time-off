@@ -9,3 +9,5 @@ export enum AppSize {
     xxl = 64,
     '3xl' = 80,
 }
+
+export const DEFAULT_DATE_FORMAT = 'dd. MM. yyyy';

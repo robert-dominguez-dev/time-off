@@ -18,17 +18,12 @@ import {
 import { useEffect } from 'react';
 import { useIonRouter } from '@ionic/react';
 import { getEndDateRules } from '../../../../components/common/AppForm/components/helpers/getEndDateRules';
+import { timeOffTypeToTextMap } from './constants';
 
 const TIME_OFF_TYPES = Object.values(TimeOffType);
 const DATE_FIELD_NAMES = [ CreateRequestFormFieldName.startDate, CreateRequestFormFieldName.endDate ]satisfies CreateRequestFormFieldName[];
 
 const defaultValues = composeCreateRequestFormDefaultValues();
-
-const timeOffTypeToTextMap: Record<TimeOffType, string> = {
-  [TimeOffType.vacation]: 'Vacation',
-  [TimeOffType.sick]: 'Sick',
-  [TimeOffType.personal]: 'Personal',
-};
 
 const timeOfTypePickerItems = TIME_OFF_TYPES.map<AppPickerItem<TimeOffType>>((timeOffType) => ({
   label: timeOffTypeToTextMap[timeOffType],
@@ -60,16 +55,19 @@ export const EmployeeCreateRequestPage = () => {
   }, [ startDateFormValue, endDateFormValue ]);
 
   const onSubmit = (data: CreateRequestFormValues) => {
-    dispatch({
-      type: TimeOffRequestsActionCode.addRequest,
-      payload: {
-        employeeUsername: user?.username ?? '',
-        timeOffType: data.type,
-        startDate: data.startDate,
-        endDate: data.endDate,
-        employeeNote: data.note,
-      },
-    });
+    if (user) {
+      dispatch({
+        type: TimeOffRequestsActionCode.addRequest,
+        payload: {
+          employeeUsername: user.username,
+          employeeName: user.name,
+          timeOffType: data.type,
+          startDate: data.startDate,
+          endDate: data.endDate,
+          employeeNote: data.note,
+        },
+      });
+    }
     router.goBack();
   };
 

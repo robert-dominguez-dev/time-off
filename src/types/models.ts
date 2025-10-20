@@ -26,7 +26,7 @@ export type TimeOffRequest = {
     employeeUsername: string;
     startDate: string;
     endDate: string;
-    type: TimeOffType;
+    timeOffType: TimeOffType;
     status: TimeOffRequestStatus;
     employeeNote?: string;
     supervisorNote?: string;

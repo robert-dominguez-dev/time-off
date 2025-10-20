@@ -4,9 +4,8 @@ import { AppColumn } from '../../AppView/AppColumn';
 import { appColors } from '../../../../constants/ui';
 import type { FieldPath } from 'react-hook-form/dist/types/path';
 import { AppRow } from '../../AppView/AppRow';
-import { format } from 'date-fns';
-import { COMPLETE_DATE_FORMAT } from '../../../../constants/common';
 import { IonDatetimeCustomEvent } from '@ionic/core/dist/types/components';
+import { subMinutes } from 'date-fns';
 
 type AppDatePickerProps<TFieldValues extends FieldValues, TFieldName extends FieldPath<TFieldValues>> =
     {
@@ -14,6 +13,8 @@ type AppDatePickerProps<TFieldValues extends FieldValues, TFieldName extends Fie
         name: TFieldName;
         control: Control<TFieldValues>;
         rules?: RegisterOptions<TFieldValues, TFieldName>;
+        min?: string;
+        max?: string;
     };
 
 export const AppDatePicker = <TFieldValues extends FieldValues, TFieldName extends FieldPath<TFieldValues>>({
@@ -21,6 +22,8 @@ export const AppDatePicker = <TFieldValues extends FieldValues, TFieldName exten
   label,
   control,
   rules,
+  min,
+  max,
 }: AppDatePickerProps<TFieldValues, TFieldName>) => {
   const { errors } = useFormState({ control });
   const errorMessage = errors[name]?.message?.toString();
@@ -43,10 +46,22 @@ export const AppDatePicker = <TFieldValues extends FieldValues, TFieldName exten
               },
             }) => {
               const handleChange = (e: IonDatetimeCustomEvent<DatetimeChangeEventDetail>) => {
-                const eventValue = e.detail.value;
-                const newValue: string | undefined = typeof eventValue === 'string' ?
-                  format(eventValue, COMPLETE_DATE_FORMAT) : undefined;
-                onChange(newValue);
+                /**
+                                 * Despite we give to the date picker ISO string with timezone,
+                                 * it returns string without it,
+                                 * so we need to take care of it manually...
+                                 */
+                const dateValue = e.detail.value;
+
+                if (typeof dateValue !== 'string') {
+                  return undefined;
+                }
+
+                const localDateWithIncorrectTimezone = new Date(dateValue);
+                const timezoneOffsetMinutes = localDateWithIncorrectTimezone.getTimezoneOffset();
+                const isoDateStringWithCorrectedTimezone = subMinutes(localDateWithIncorrectTimezone, timezoneOffsetMinutes).toISOString();
+
+                onChange(isoDateStringWithCorrectedTimezone);
               };
 
               return (
@@ -58,8 +73,10 @@ export const AppDatePicker = <TFieldValues extends FieldValues, TFieldName exten
                   />
                   <IonModal keepContentsMounted={true}>
                     <IonDatetime
-                      id={name} presentation={'date'}
+                      id={name}
                       value={value}
+                      min={min}
+                      max={max}
                       onIonChange={handleChange}
                       onIonBlur={onBlur}
                     />

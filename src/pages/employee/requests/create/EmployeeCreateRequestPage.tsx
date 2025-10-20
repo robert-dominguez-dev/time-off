@@ -1,87 +1,95 @@
 import { AppPageLayout } from '../../../../components/common/AppPageLayout';
 import { AppForm } from '../../../../components/common/AppForm/AppForm';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { AppFormInput } from '../../../../components/common/AppForm/components/AppFormInput';
 import { useTimeOffRequests } from '../../../../contexts/TimeOffRequestsContext/TimeOffRequestsContext';
 import { TimeOffRequestsActionCode } from '../../../../contexts/TimeOffRequestsContext/types';
 import { useUser } from '../../../../contexts/UserContext';
 import { TimeOffType } from '../../../../types/models';
-import { addDays, format } from 'date-fns';
 import { getTextRules } from '../../../../components/common/AppForm/components/helpers/getTextRules';
 import { AppDatePicker } from '../../../../components/common/AppForm/components/AppDatePicker';
 import { getRequiredRules } from '../../../../components/common/AppForm/components/helpers/getRequiredRules';
-import { COMPLETE_DATE_FORMAT } from '../../../../constants/common';
 import { AppPicker, AppPickerItem } from '../../../../components/common/AppForm/components/AppPicker/AppPicker';
+import {
+  composeCreateRequestFormDefaultValues,
+  CreateRequestFormFieldName,
+  CreateRequestFormValues,
+} from '../../../../components/employee/helpers/composeCreateRequestFormDefaultValues';
+import { useEffect } from 'react';
+import { useIonRouter } from '@ionic/react';
+import { getEndDateRules } from '../../../../components/common/AppForm/components/helpers/getEndDateRules';
 
-const TODAY = new Date();
 const TIME_OFF_TYPES = Object.values(TimeOffType);
+const DATE_FIELD_NAMES = [ CreateRequestFormFieldName.startDate, CreateRequestFormFieldName.endDate ]satisfies CreateRequestFormFieldName[];
 
-const timeOfTypeToTextMap: Record<TimeOffType, string> = {
+const defaultValues = composeCreateRequestFormDefaultValues();
+
+const timeOffTypeToTextMap: Record<TimeOffType, string> = {
   [TimeOffType.vacation]: 'Vacation',
   [TimeOffType.sick]: 'Sick',
   [TimeOffType.personal]: 'Personal',
 };
 
 const timeOfTypePickerItems = TIME_OFF_TYPES.map<AppPickerItem<TimeOffType>>((timeOffType) => ({
-  label: timeOfTypeToTextMap[timeOffType],
+  label: timeOffTypeToTextMap[timeOffType],
   value: timeOffType,
 }));
-
-enum CreateRequestFormFieldName {
-    type = 'type',
-    startDate = 'startDate',
-    endDate = 'endDate',
-    note = 'note',
-}
-
-type CreateRequestFormValues = {
-    [CreateRequestFormFieldName.type]: TimeOffType;
-    [CreateRequestFormFieldName.startDate]: string;
-    [CreateRequestFormFieldName.endDate]: string;
-    [CreateRequestFormFieldName.note]?: string;
-};
 
 export const EmployeeCreateRequestPage = () => {
   const { user } = useUser();
   const { dispatch } = useTimeOffRequests();
 
+  const router = useIonRouter();
+
   const {
     control,
     handleSubmit,
+    trigger,
   } = useForm<CreateRequestFormValues>({
     mode: 'onChange',
-    defaultValues: {
-      type: TimeOffType.vacation,
-      startDate: format(TODAY, COMPLETE_DATE_FORMAT),
-      endDate: format(addDays(TODAY, 7), COMPLETE_DATE_FORMAT),
-    },
+    defaultValues,
   });
 
-  const onSubmit = (data: CreateRequestFormValues) => dispatch({
-    type: TimeOffRequestsActionCode.addRequest,
-    payload: {
-      employeeUsername: user?.username ?? '',
-      type: data.type,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      employeeNote: data.note,
-    },
+  const [ startDateFormValue, endDateFormValue ] = useWatch({
+    control,
+    name: DATE_FIELD_NAMES,
   });
+
+  useEffect(() => {
+    trigger(DATE_FIELD_NAMES);
+  }, [ startDateFormValue, endDateFormValue ]);
+
+  const onSubmit = (data: CreateRequestFormValues) => {
+    dispatch({
+      type: TimeOffRequestsActionCode.addRequest,
+      payload: {
+        employeeUsername: user?.username ?? '',
+        timeOffType: data.type,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        employeeNote: data.note,
+      },
+    });
+    router.goBack();
+  };
 
   return (
     <AppPageLayout withBackButton title={'Create request'}>
       <AppForm control={control} submitButtonLabel={'Create request'} onSubmit={handleSubmit(onSubmit)}>
         <AppDatePicker
           name={CreateRequestFormFieldName.startDate}
+          min={defaultValues.startDate}
+          max={endDateFormValue}
           control={control}
           label={'Start date'}
           rules={getRequiredRules()}
         />
         <AppDatePicker
           name={CreateRequestFormFieldName.endDate}
+          min={startDateFormValue}
           control={control}
           label={'End date'}
-          rules={getRequiredRules()}
+          rules={getEndDateRules(CreateRequestFormFieldName.startDate)}
         />
         <AppPicker
           control={control}

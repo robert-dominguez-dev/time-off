@@ -8,8 +8,8 @@ const baseRoute = AppRoute.supervisorRequests;
 
 export const SupervisorRoutes = () => (
   <Switch>
-    <Route exact path={AppRoute.supervisorRequestDetail} component={SupervisorRequestsDetailPage} />
     <Route exact path={baseRoute} component={SupervisorRequestsPage} />
+    <Route exact path={AppRoute.supervisorRequestDetail} component={SupervisorRequestsDetailPage} />
     <Route render={() => <Redirect to={baseRoute} />} />
   </Switch>
 );

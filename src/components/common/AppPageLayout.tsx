@@ -31,7 +31,7 @@ export const AppPageLayout = ({ children, title, gap, withBackButton }: AppPageL
       <IonHeader>
         <IonToolbar>
           {backHeaderButton}
-          <IonTitle size={'large'}>{title}</IonTitle>
+          <IonTitle>{title.toUpperCase()}</IonTitle>
           {logoutHeaderButton}
         </IonToolbar>
       </IonHeader>

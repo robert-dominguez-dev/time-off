@@ -9,7 +9,7 @@ export const SupervisorRequestsDetailPage = () => {
   const { id } = useParams<RequestsDetailPageParams>();
 
   return (
-    <AppPageLayout title={'Request detail'}>
+    <AppPageLayout withBackButton title={'Request detail'}>
       <IonTitle size="large">Request detail: {id}</IonTitle>
     </AppPageLayout>
   );

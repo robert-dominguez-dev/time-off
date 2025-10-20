@@ -7,6 +7,7 @@ import {
   IonPicker,
   IonPickerColumn,
   IonPickerColumnOption,
+  IonText,
   IonToolbar,
 } from '@ionic/react';
 import { AppColumn } from '../../../AppView/AppColumn';
@@ -66,17 +67,20 @@ export const AppPicker = <
               const buttonLabel = selectedItem?.label || 'Select';
               return (
                 <>
-                  <IonButton
+                  <IonText
                     id={name}
-                    disabled={disabled}
+                    color={'primary'}
                   >
-                    {buttonLabel}
-                  </IonButton>
+                    <span>
+                      <strong>
+                        {buttonLabel}
+                      </strong>
+                    </span>
+                  </IonText>
                   <IonModal
                     ref={modal}
                     trigger={name}
                     isOpen={false}
-                    onDidDismiss={({ detail }) => console.log('didDismiss', JSON.stringify(detail))}
                   >
                     <IonToolbar>
                       <IonButtons slot="end">
